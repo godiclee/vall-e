@@ -324,7 +324,8 @@ class AudioTokenExtractor(FeatureExtractor):
         return padded_tensor, lengths
 
     def extract_batch(self, samples, sampling_rate, lengths) -> np.ndarray:
-        samples = [wav.squeeze() for wav in samples]
+        samples = [torch.mean(wav, dim=0) for wav in samples]
+        #samples = [wav.squeeze() for wav in samples]
         device = self.tokenizer.device
         samples, lengths = self.pad_tensor_list(samples, device)
         samples = samples.unsqueeze(1)
@@ -343,6 +344,7 @@ class AudioTokenExtractor(FeatureExtractor):
                 )
                 for wav in samples
             ]
+            samples = torch.stack(samples)
         # Extract discrete codes from EnCodec
         with torch.no_grad():
             encoded_frames = self.tokenizer.encode(samples.detach().to(device))

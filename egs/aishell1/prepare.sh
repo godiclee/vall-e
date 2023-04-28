@@ -17,7 +17,7 @@ stop_stage=4
 #      You can download aishell from https://www.openslr.org/33/
 #
 
-dl_dir=$PWD/download
+dl_dir=/volume/asr-ssd/godic
 
 dataset_parts="-p train -p dev -p test"  # debug
 

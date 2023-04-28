@@ -411,7 +411,10 @@ class TtsDataModule:
     @lru_cache()
     def dev_cuts(self) -> CutSet:
         logging.info("About to get dev cuts")
-        return load_manifest_lazy(self.args.manifest_dir / "cuts_dev.jsonl.gz")
+        try:
+            return load_manifest_lazy(self.args.manifest_dir / "cuts_dev.jsonl.gz")
+        except:
+            return load_manifest_lazy(self.args.manifest_dir / "cuts_valid.jsonl.gz")
 
     @lru_cache()
     def test_cuts(self) -> CutSet:

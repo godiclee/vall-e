@@ -125,6 +125,7 @@ def main():
         ]
     else:
         dataset_parts = dataset_parts.replace("-p", "").strip().split(" ")
+        dataset_parts.remove("")
 
     assert len(dataset_parts) >= 1
 
@@ -180,7 +181,7 @@ def main():
                         f"{args.output_dir}/{args.prefix}_fbank_{partition}"
                     )
 
-                if args.prefix.lower() in ["ljspeech", "aishell", "baker"]:
+                if args.prefix.lower() in ["ljspeech", "aishell", "baker", 'custom_manifest']:
                     cut_set = cut_set.resample(24000)
                     # https://github.com/lifeiteng/vall-e/issues/90
                     # if args.prefix == "aishell":
@@ -228,7 +229,7 @@ def main():
                             text = c.supervisions[0].custom["normalized_text"]
                             text = text.replace("”", '"').replace("“", '"')
                             phonemes = tokenize_text(text_tokenizer, text=text)
-                        elif args.prefix == "aishell":
+                        elif args.prefix == "aishell" or args.prefix == "custom_manifest":
                             phonemes = tokenize_text(
                                 text_tokenizer, text=c.supervisions[0].text
                             )
